@@ -1,4 +1,6 @@
-﻿namespace API_Hexagonal.Domain.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace API_Hexagonal.Domain.Entities
 {
     public class Professor
     {
@@ -6,6 +8,7 @@
         public string Nome { get; set; }
         public string Email { get; set; }
 
+        [JsonIgnore]
         public List<Materia> Materias { get; set; } = new List<Materia>();
 
         public Professor()

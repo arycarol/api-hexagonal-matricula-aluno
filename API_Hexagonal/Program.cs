@@ -4,13 +4,18 @@ using API_Hexagonal.Domain.Interface.IRepository;
 using API_Hexagonal.Infrastructure.Data;
 using API_Hexagonal.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Controllers
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.WriteIndented = true;
+    });
 
-// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -28,9 +33,6 @@ builder.Services.AddScoped<IProfessorRepository, ProfessorRepository>();
 builder.Services.AddScoped<IProfessorService, ProfessorService>();
 
 
-// ============================
-// Database
-// ============================
 
 builder.Services.AddDbContext<DataContext>(options =>
     options.UseSqlServer(
@@ -38,10 +40,6 @@ builder.Services.AddDbContext<DataContext>(options =>
     )
 );
 
-
-// ============================
-// App
-// ============================
 
 var app = builder.Build();
 

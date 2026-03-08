@@ -446,13 +446,6 @@
           "email": {
             "type": "string",
             "nullable": true
-          },
-          "materias": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Materia"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false

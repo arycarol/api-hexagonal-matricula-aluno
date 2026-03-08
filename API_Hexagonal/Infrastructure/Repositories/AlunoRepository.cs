@@ -42,10 +42,10 @@ namespace API_Hexagonal.Infrastructure.Repositories
 
         public Aluno GetAlunoById(Guid id)
         {
-            Aluno aluno = this._context.AlunosTable
-                .Select(aluno => aluno)
-                .Where(aluno => aluno.Id == id)
-                .FirstOrDefault();
+            var aluno = _context.AlunosTable
+                .Include(a => a.Materias)          
+                .ThenInclude(m => m.Professor)
+                .FirstOrDefault(a => a.Id == id);
 
             return aluno;
         }
@@ -61,7 +61,10 @@ namespace API_Hexagonal.Infrastructure.Repositories
 
         public List<Aluno> GetList()
         {
-            return _context.AlunosTable.ToList();
+            return _context.AlunosTable
+                .Include(a => a.Materias)          
+                .ThenInclude(m => m.Professor) 
+                .ToList();
         }
 
         public bool PutAluno(Aluno aluno)
